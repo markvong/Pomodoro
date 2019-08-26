@@ -1,0 +1,5 @@
+﻿  Main.cpp
+  TaskList.cpp
+c:\users\alex\documents\vs_projects\pomodoro\pomodoro\tasklist.cpp(25): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
+  Pomodoro.vcxproj -> C:\Users\Alex\Documents\vs_projects\Pomodoro\Debug\Pomodoro.exe
