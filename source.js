@@ -20,6 +20,8 @@ convert length to seconds
     - update which session #
 
 - need time formatter
+ui - display as MM:SS
+config settings - set as seconds
 */
 // DOM elements
 const timerText     = document.querySelector('.timer-text');
@@ -29,18 +31,14 @@ const stopButton    = document.querySelector('#stop-btn');
 
 // Session elements
 const sessionLabel  = document.querySelector('#session-label');
-// Short break elements
 const breakLabel  = document.querySelector('#break-label');
-// Long break elements
 const longBreakLabel  = document.querySelector('#lng-break-label');
-
 const decrementButtons = Array.from(document.querySelectorAll('.dcr-btn'));
 const incrementButtons = Array.from(document.querySelectorAll('.incr-btn'));
 
-
 // Interval ID to store the session state
 var intervalID = '';
-var currTime = 10;
+var currTime = 0;
 
 // Default timer settings
 const defaultSettings = {
@@ -48,7 +46,6 @@ const defaultSettings = {
     shortBreak : 5,
     longBreak : 30
 };
-
 // User defined timer settings, affected by user-input
 var configSettings = {
     session : 25,
@@ -56,9 +53,58 @@ var configSettings = {
     longBreak : 30
 };
 
+// Button listeners
+function incrementButton(event) {
+    console.log(event.id);
+}
+
+// Update config UI
+function updateConfig() {
+    sessionLabel.textContent = timerText.textContent = configSettings['session'].toString();
+    breakLabel.textContent      = configSettings['shortBreak'].toString();
+    longBreakLabel.textContent  = configSettings['longBreak'].toString();
+    currTime     = configSettings['session']; // parse this with diff format
+}
+
+// Initialize
+function initializeAll() {
+    sessionLabel.textContent    = defaultSettings['session'].toString();
+    breakLabel.textContent      = defaultSettings['shortBreak'].toString();
+    longBreakLabel.textContent  = defaultSettings['longBreak'].toString();
+    timerText.textContent       = defaultSettings['session'].toString();
+    currTime = defaultSettings['session'];
+}
+
+// Timer functions
+// Start the timer countdown from configured setting
+function startTimer() {
+    // DOM element inner html
+    console.dir(configSettings);
+    intervalID = setInterval(updateTimer, 1000);
+}
+
+function pauseTimer() {
+    clearInterval(intervalID);
+}
+
+function stopTimer() {
+    clearInterval(intervalID);
+    updateConfig();
+}
+
+function updateTimer() {
+    if(currTime <= 0) {
+        clearInterval(intervalID);
+    }
+    timerText.textContent = currTime.toString();
+    currTime--;
+    console.log(currTime);
+}
+
 // Event listeners
 startButton.addEventListener('click', startTimer);
 pauseButton.addEventListener('click', pauseTimer);
+stopButton.addEventListener('click', stopTimer);
 
 incrementButtons.forEach( (button) => {
     button.addEventListener('click', function() {
@@ -74,7 +120,7 @@ incrementButtons.forEach( (button) => {
             configSettings.shortBreak += 1;
             if (configSettings.shortBreak > 10) configSettings.shortBreak = 10;
         }
-        updateConfigUI();
+        updateConfig();
     });
 });
 
@@ -92,58 +138,8 @@ decrementButtons.forEach( (button) => {
             configSettings.shortBreak -= 1;
             if (configSettings.shortBreak <= 1) configSettings.shortBreak = 1;
         }
-        updateConfigUI();
+        updateConfig();
     });
 });
 
 initializeAll();
-
-// Button listeners
-function incrementButton(event) {
-    console.log(event.id);
-}
-
-// Update config UI
-function updateConfigUI() {
-    sessionLabel.textContent = configSettings.session.toString();
-    breakLabel.textContent = configSettings.shortBreak.toString();
-    longBreakLabel.textContent = configSettings.longBreak.toString();
-}
-
-// Initialize
-function initializeAll() {
-    sessionLabel.textContent    = defaultSettings['session'].toString();
-    breakLabel.textContent      = defaultSettings['shortBreak'].toString();
-    longBreakLabel.textContent  = defaultSettings['longBreak'].toString();
-    timerText.textContent       = defaultSettings['session'].toString();
-}
-
-// Timer functions
-// Start the timer countdown from configured setting
-function startTimer() {
-    // DOM element inner html
-    
-    intervalID = setInterval(updateTimer, 1000);
-    
-}
-
-function pauseTimer() {
-    clearInterval(intervalID);
-}
-
-function resetTimer() {
-
-}
-
-function updateTimer() {
-    if(currTime <= 0) {
-        clearInterval(intervalID);
-    } else {
-        timerText.textContent = currTime.toString();     
-    }
-    console.log(currTime--);
-}
-
-// on setting updates, convert minutes to seconds, store in config settings as seconds
-// debug
-// startTimer();
