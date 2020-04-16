@@ -6,10 +6,39 @@
         <link rel="stylesheet" type="text/css" href="style.css">
     </head>
     <body>
-        <button id="start">start</button>
-        <button id="stop">stop</button>
-        <br>
-        <label id="date">Date</label>
+        <label class="title">Pomodoro</label>
+        <label class="ready">Ready?</label>
+        <text class="timer-text"></text>
+        <div class="sessions-div">
+            <button class="session-btn" id="session1">temp</button>
+            <button class="session-btn" id="session2">temp</button>
+            <button class="session-btn" id="session3">temp</button>
+            <button class="session-btn" id="session4">temp</button>    
+        </div>
+        <div class="timer-div">
+            <button class="timer-btn" id="start-btn">start</button>
+            <button class="timer-btn" id="pause-btn">pause</button>
+            <button class="timer-btn" id="stop-btn">stop</button>            
+        </div>
+        <div class="config-div">
+            <label class=="config-label">Session: </label>
+            <button class="config-btn dcr-btn">decrease</button>
+            <label class="config-label" id="session-label">SESSION TIME</label>
+            <button class="config-btn incr-btn">increase</button>
+        </div>
+        <div class="config-div">
+            <label class=="config-label">Short break: </label>
+            <button class="config-btn dcr-btn">decrease</button>
+            <label class="config-label" id="shrt-break-label">SHORT BREAK TIME</label>
+            <button class="config-btn incr-btn">increase</button>
+        </div>
+        <div class="config-div">
+            <label class=="config-label">Long break: </label>
+            <button class="config-btn dcr-btn">decrease</button>
+            <label class="config-label" id="lng-break-label">LONG BREAK TIME</label>
+            <button class="config-btn incr-btn">increase</button>
+        </div>
+        <button class="reset-btn">Reset</button>
     </body>
 </html>
 
