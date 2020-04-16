@@ -2,13 +2,13 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>playground</title>
+        <title>Pomodoro</title>
         <link rel="stylesheet" type="text/css" href="style.css">
     </head>
     <body>
         <label class="title">Pomodoro</label>
         <label class="ready">Ready?</label>
-        <text class="timer-text"></text>
+        <text class="timer-text">TIMER</text>
         <div class="sessions-div">
             <button class="session-btn" id="session1">temp</button>
             <button class="session-btn" id="session2">temp</button>
@@ -22,21 +22,21 @@
         </div>
         <div class="config-div">
             <label class=="config-label">Session: </label>
-            <button class="config-btn dcr-btn">decrease</button>
+            <button class="config-btn dcr-btn" id="session-dcr-btn">decrease</button>
             <label class="config-label" id="session-label">SESSION TIME</label>
-            <button class="config-btn incr-btn">increase</button>
+            <button class="config-btn incr-btn" id="session-incr-btn">increase</button>
         </div>
         <div class="config-div">
             <label class=="config-label">Short break: </label>
-            <button class="config-btn dcr-btn">decrease</button>
-            <label class="config-label" id="shrt-break-label">SHORT BREAK TIME</label>
-            <button class="config-btn incr-btn">increase</button>
+            <button class="config-btn dcr-btn" id="sbreak-dcr-btn">decrease</button>
+            <label class="config-label" id="break-label">SHORT BREAK TIME</label>
+            <button class="config-btn incr-btn" id="sbreak-incr-btn">increase</button>
         </div>
         <div class="config-div">
             <label class=="config-label">Long break: </label>
-            <button class="config-btn dcr-btn">decrease</button>
+            <button class="config-btn dcr-btn" id="lbreak-dcr-btn">decrease</button>
             <label class="config-label" id="lng-break-label">LONG BREAK TIME</label>
-            <button class="config-btn incr-btn">increase</button>
+            <button class="config-btn incr-btn" id="lbreak-icr-btn">increase</button>
         </div>
         <button class="reset-btn">Reset</button>
     </body>

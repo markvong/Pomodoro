@@ -8,3 +8,6 @@ TODO:
     - stop function
 
 Finish by 4/19
+
+4/15:
+- need time formatter
