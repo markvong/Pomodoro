@@ -39,9 +39,9 @@ const MIN_SESSION = 60;
 const MIN_SBREAK = 300;
 const MIN_LBREAK = 300;
 
-const DEFAULT_SESSION = 10;
-const DEFAULT_SBREAK = 5;
-const DEFAULT_LBREAK = 15;
+const DEFAULT_SESSION = 1500;
+const DEFAULT_SBREAK = 300;
+const DEFAULT_LBREAK = 1800;
 
 var CONFIG_SESSION = DEFAULT_SESSION;
 var CONFIG_SBREAK = DEFAULT_SBREAK;
@@ -108,8 +108,6 @@ function initializeAll() {
 function startTimer() {
     // DOM element inner html
     intervalID = setInterval(updateTimer, 1000);
-
-    
 }
 
 function pauseTimer() {
