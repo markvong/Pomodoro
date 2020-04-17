@@ -1,28 +1,3 @@
-/*
-
-given a length (in seconds: e.g. 25*60)
-some sort of while loop based on the length
-- function that after a time delay of 1 second
-    - updates w/e DOM element (probalby the timer)
-    - decrements the length?
-
-grab length
-convert length to seconds
-- 
-
-- on while loop end
-    - start into the next thing
-    - play a sound 
-    - start break (same thing as the other previous while loop)
-
-- on both work+break timers
-    -play a new sound
-    - update which session #
-
-- need time formatter
-ui - display as MM:SS
-config settings - set as seconds
-*/
 // Constants
 const SESSION = "Session";
 const SBREAK = "Sbreak";
@@ -85,10 +60,16 @@ function incrementButton(event) {
 
 // Update config UI
 function updateConfig() {
-    sessionLabel.textContent = timerText.textContent = formatTime(CONFIG_SESSION);
+    sessionLabel.textContent =  formatTime(CONFIG_SESSION);
     breakLabel.textContent      = formatTime(CONFIG_SBREAK);
     longBreakLabel.textContent  = formatTime(CONFIG_LBREAK);
-    currTime     = CONFIG_SESSION; // parse this with diff format
+}
+
+// Update the timer text to reflect the current interval
+function resetTimerText(interval) {
+    clearInterval(intervalID);
+    currTime = interval; 
+    timerText.textContent = formatTime(interval);
 }
 
 // Initialize
@@ -183,15 +164,21 @@ incrementButtons.forEach( (button) => {
         if (button.id.includes('session')) {
             CONFIG_SESSION += 60;
             if (CONFIG_SESSION > MAX_SESSION) CONFIG_SESSION = MAX_SESSION;
+            if (CURRENT_INTERVAL === SESSION) resetTimerText(CONFIG_SESSION);
+            
         }
         else if (button.id.includes('lbreak')) {
             CONFIG_LBREAK += 60;
             if (CONFIG_LBREAK > MAX_LBREAK) CONFIG_LBREAK = MAX_LBREAK;
+            if (CURRENT_INTERVAL === LBREAK) resetTimerText(CONFIG_LBREAK);
+            
         }
         else if (button.id.includes('sbreak')) {
             CONFIG_SBREAK += 60;
             if (CONFIG_SBREAK > MAX_SBREAK) CONFIG_SBREAK = MAX_SBREAK;
+            if (CURRENT_INTERVAL === SBREAK) resetTimerText(CONFIG_SBREAK);
         }
+       
         updateConfig();
     });
 });
@@ -201,15 +188,19 @@ decrementButtons.forEach( (button) => {
         if (button.id.includes('session')) {
             CONFIG_SESSION -= 60;
             if (CONFIG_SESSION <= MIN_SESSION) CONFIG_SESSION = MIN_SESSION;
+            if (CURRENT_INTERVAL === SESSION) resetTimerText(CONFIG_SESSION);
         }
         else if (button.id.includes('lbreak')) {
             CONFIG_LBREAK -= 60;
             if (CONFIG_LBREAK <= MIN_LBREAK) CONFIG_LBREAK = MIN_LBREAK;
+            if (CURRENT_INTERVAL === LBREAK) resetTimerText(CONFIG_LBREAK);
         }
         else if (button.id.includes('sbreak')) {
             CONFIG_SBREAK -= 60;
             if (CONFIG_SBREAK <= MIN_SBREAK) CONFIG_SBREAK = MIN_SBREAK;
+            if (CURRENT_INTERVAL === SBREAK) resetTimerText(CONFIG_SBREAK);
         }
+        
         updateConfig();
     });
 });
