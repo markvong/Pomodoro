@@ -24,17 +24,24 @@ ui - display as MM:SS
 config settings - set as seconds
 */
 // Constants
+const SESSION = "Session";
+const SBREAK = "Sbreak";
+const LBREAK = "Lbreak";
+
+var CURRENT_INTERVAL = "";
+var NUM_INTERVALS = 0;
+
 const MAX_SESSION = 2400; 
 const MAX_SBREAK = 600;
 const MAX_LBREAK = 3600;
 
-const MIN_SESSION = 300;
+const MIN_SESSION = 60;
 const MIN_SBREAK = 300;
 const MIN_LBREAK = 300;
 
-const DEFAULT_SESSION = 1500;
-const DEFAULT_SBREAK = 300;
-const DEFAULT_LBREAK = 1800;
+const DEFAULT_SESSION = 10;
+const DEFAULT_SBREAK = 5;
+const DEFAULT_LBREAK = 15;
 
 var CONFIG_SESSION = DEFAULT_SESSION;
 var CONFIG_SBREAK = DEFAULT_SBREAK;
@@ -90,7 +97,9 @@ function initializeAll() {
     breakLabel.textContent      = formatTime(DEFAULT_SBREAK);
     longBreakLabel.textContent  = formatTime(DEFAULT_LBREAK);
     timerText.textContent       = formatTime(DEFAULT_SESSION);
-    currTime = DEFAULT_SESSION;
+    currTime            = DEFAULT_SESSION;
+    CURRENT_INTERVAL    = SESSION;
+    NUM_INTERVALS       = 1;
 }
 
 
@@ -99,6 +108,8 @@ function initializeAll() {
 function startTimer() {
     // DOM element inner html
     intervalID = setInterval(updateTimer, 1000);
+
+    
 }
 
 function pauseTimer() {
@@ -111,10 +122,37 @@ function stopTimer() {
 }
 
 function updateTimer() {
+
+    timerText.textContent = formatTime(currTime);
+
     if(currTime <= 0) {
         clearInterval(intervalID);
+        // On any interval end, play a sound
+        if(CURRENT_INTERVAL === SESSION) {
+            if(NUM_INTERVALS >= 4) {
+                CURRENT_INTERVAL = LBREAK;
+                currTime = CONFIG_LBREAK;
+            }
+            else {
+                NUM_INTERVALS += 1;
+                CURRENT_INTERVAL = SBREAK;
+                currTime = CONFIG_SBREAK;
+            }
+        }
+        else if(CURRENT_INTERVAL === SBREAK) {
+            CURRENT_INTERVAL = SESSION;
+            currTime = CONFIG_SESSION;
+        }
+        else if(CURRENT_INTERVAL === LBREAK) {
+            CURRENT_INTERVAL = SESSION;
+            NUM_INTERVALS = 1;
+            currTime = CONFIG_SESSION;
+            // Display message to show user finished task/reached long break
+        }
+        
+        return;
     }
-    timerText.textContent = formatTime(currTime);
+    
     currTime--;
 }
 
@@ -127,11 +165,7 @@ function formatTime(seconds) {
 
 // Reset settings to default
 function resetSettings() {
-    currTime = DEFAULT_SESSION;
-    timerText.textContent       = formatTime(DEFAULT_SESSION);
-    sessionLabel.textContent    = formatTime(DEFAULT_SESSION);
-    breakLabel.textContent      = formatTime(DEFAULT_SBREAK);
-    longBreakLabel.textContent  = formatTime(DEFAULT_LBREAK);
+    initializeAll();
 
     CONFIG_SESSION  = DEFAULT_SESSION;
     CONFIG_SBREAK   = DEFAULT_SBREAK;
