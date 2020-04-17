@@ -97,6 +97,16 @@ function pauseTimer() {
 
 function stopTimer() {
     clearInterval(intervalID);
+    switch(CURRENT_INTERVAL) {
+        case SESSION:
+            resetTimerText(CONFIG_SESSION);
+            break;
+        case SBREAK:
+            resetTimerText(CONFIG_SBREAK);
+            break;
+        case LBREAK:
+            resetTimerText(CONFIG_LBREAK);
+    }
     updateConfig();
 }
 
