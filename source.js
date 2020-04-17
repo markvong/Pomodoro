@@ -23,11 +23,29 @@ convert length to seconds
 ui - display as MM:SS
 config settings - set as seconds
 */
+// Constants
+const MAX_SESSION = 2400; 
+const MAX_SBREAK = 600;
+const MAX_LBREAK = 3600;
+
+const MIN_SESSION = 300;
+const MIN_SBREAK = 300;
+const MIN_LBREAK = 300;
+
+const DEFAULT_SESSION = 1500;
+const DEFAULT_SBREAK = 300;
+const DEFAULT_LBREAK = 1800;
+
+var CONFIG_SESSION = DEFAULT_SESSION;
+var CONFIG_SBREAK = DEFAULT_SBREAK;
+var CONFIG_LBREAK = DEFAULT_LBREAK;
+
 // DOM elements
 const timerText     = document.querySelector('.timer-text');
 const startButton   = document.querySelector('#start-btn');
 const pauseButton   = document.querySelector('#pause-btn');
 const stopButton    = document.querySelector('#stop-btn');
+const resetButton   = document.querySelector('.reset-btn');
 
 // Session elements
 const sessionLabel  = document.querySelector('#session-label');
@@ -42,15 +60,15 @@ var currTime = 0;
 
 // Default timer settings
 const defaultSettings = {
-    session : 25,
-    shortBreak : 5,
-    longBreak : 30
+    session : 1500,
+    shortBreak : 300,
+    longBreak : 1800
 };
 // User defined timer settings, affected by user-input
 var configSettings = {
-    session : 25,
-    shortBreak : 5,
-    longBreak : 30
+    session : 1500,
+    shortBreak : 300,
+    longBreak : 1800
 };
 
 // Button listeners
@@ -60,26 +78,26 @@ function incrementButton(event) {
 
 // Update config UI
 function updateConfig() {
-    sessionLabel.textContent = timerText.textContent = configSettings['session'].toString();
-    breakLabel.textContent      = configSettings['shortBreak'].toString();
-    longBreakLabel.textContent  = configSettings['longBreak'].toString();
-    currTime     = configSettings['session']; // parse this with diff format
+    sessionLabel.textContent = timerText.textContent = formatTime(CONFIG_SESSION);
+    breakLabel.textContent      = formatTime(CONFIG_SBREAK);
+    longBreakLabel.textContent  = formatTime(CONFIG_LBREAK);
+    currTime     = CONFIG_SESSION; // parse this with diff format
 }
 
 // Initialize
 function initializeAll() {
-    sessionLabel.textContent    = defaultSettings['session'].toString();
-    breakLabel.textContent      = defaultSettings['shortBreak'].toString();
-    longBreakLabel.textContent  = defaultSettings['longBreak'].toString();
-    timerText.textContent       = defaultSettings['session'].toString();
-    currTime = defaultSettings['session'];
+    sessionLabel.textContent    = formatTime(DEFAULT_SESSION);
+    breakLabel.textContent      = formatTime(DEFAULT_SBREAK);
+    longBreakLabel.textContent  = formatTime(DEFAULT_LBREAK);
+    timerText.textContent       = formatTime(DEFAULT_SESSION);
+    currTime = DEFAULT_SESSION;
 }
+
 
 // Timer functions
 // Start the timer countdown from configured setting
 function startTimer() {
     // DOM element inner html
-    console.dir(configSettings);
     intervalID = setInterval(updateTimer, 1000);
 }
 
@@ -96,29 +114,51 @@ function updateTimer() {
     if(currTime <= 0) {
         clearInterval(intervalID);
     }
-    timerText.textContent = currTime.toString();
+    timerText.textContent = formatTime(currTime);
     currTime--;
-    console.log(currTime);
+}
+
+// Convert seconds into minutes + seconds formatted string "mm:ss" 
+function formatTime(seconds) {
+    var m = Math.floor(seconds/60);
+    var s = seconds%60;
+    return m.toString().padStart(2, '0') + ":" + s.toString().padStart(2,'0');
+}  
+
+// Reset settings to default
+function resetSettings() {
+    currTime = DEFAULT_SESSION;
+    timerText.textContent       = formatTime(DEFAULT_SESSION);
+    sessionLabel.textContent    = formatTime(DEFAULT_SESSION);
+    breakLabel.textContent      = formatTime(DEFAULT_SBREAK);
+    longBreakLabel.textContent  = formatTime(DEFAULT_LBREAK);
+
+    CONFIG_SESSION  = DEFAULT_SESSION;
+    CONFIG_SBREAK   = DEFAULT_SBREAK;
+    CONFIG_LBREAK   = DEFAULT_LBREAK;
+
+    clearInterval(intervalID);
 }
 
 // Event listeners
 startButton.addEventListener('click', startTimer);
 pauseButton.addEventListener('click', pauseTimer);
 stopButton.addEventListener('click', stopTimer);
+resetButton.addEventListener('click', resetSettings);
 
 incrementButtons.forEach( (button) => {
     button.addEventListener('click', function() {
         if (button.id.includes('session')) {
-            configSettings.session += 1;
-            if (configSettings.session > 40) configSettings.session = 40;
+            CONFIG_SESSION += 60;
+            if (CONFIG_SESSION > MAX_SESSION) CONFIG_SESSION = MAX_SESSION;
         }
         else if (button.id.includes('lbreak')) {
-            configSettings.longBreak += 1;
-            if (configSettings.longBreak > 60) configSettings.longBreak = 60;
+            CONFIG_LBREAK += 60;
+            if (CONFIG_LBREAK > MAX_LBREAK) CONFIG_LBREAK = MAX_LBREAK;
         }
         else if (button.id.includes('sbreak')) {
-            configSettings.shortBreak += 1;
-            if (configSettings.shortBreak > 10) configSettings.shortBreak = 10;
+            CONFIG_SBREAK += 60;
+            if (CONFIG_SBREAK > MAX_SBREAK) CONFIG_SBREAK = MAX_SBREAK;
         }
         updateConfig();
     });
@@ -127,16 +167,16 @@ incrementButtons.forEach( (button) => {
 decrementButtons.forEach( (button) => {
     button.addEventListener('click', function() {
         if (button.id.includes('session')) {
-            configSettings.session -= 1;
-            if (configSettings.session <= 1) configSettings.session = 1;
+            CONFIG_SESSION -= 60;
+            if (CONFIG_SESSION <= MIN_SESSION) CONFIG_SESSION = MIN_SESSION;
         }
         else if (button.id.includes('lbreak')) {
-            configSettings.longBreak -= 1;
-            if (configSettings.longBreak <= 1) configSettings.longBreak = 1;
+            CONFIG_LBREAK -= 60;
+            if (CONFIG_LBREAK <= MIN_LBREAK) CONFIG_LBREAK = MIN_LBREAK;
         }
         else if (button.id.includes('sbreak')) {
-            configSettings.shortBreak -= 1;
-            if (configSettings.shortBreak <= 1) configSettings.shortBreak = 1;
+            CONFIG_SBREAK -= 60;
+            if (CONFIG_SBREAK <= MIN_SBREAK) CONFIG_SBREAK = MIN_SBREAK;
         }
         updateConfig();
     });
