@@ -1,0 +1,45 @@
+body {
+    text-align: center;
+    margin: 0 auto;
+    display: grid;
+    width: 50%;
+}
+body > * {
+    /* border: 1px black solid; */
+    padding: 10px;
+    font-family: 'Helvetica';
+}
+.title {
+    font-size: 40px;
+    font-weight: bold;   
+    color: rgb(216, 32, 0);
+}
+.timer-text {
+    font-size: 64px;
+    font-weight: bold;
+    color: rgb(216, 32, 0);
+}
+.session-btn {
+    border-radius: 100%;
+    width: 15px;
+    height: 15px;
+    border: 2px rgb(216, 32, 0) solid;
+    margin: 0px 10px 0px 10px;
+}
+.timer-btn {
+    border-radius: 50%;
+    font-size: 30px;
+    padding: 10px;
+}
+.timer-btn:hover {
+    transform: scale(1.25);
+    opacity: 0.9;
+}
+.config-div {
+    display: grid;
+    /* create grid template area and format properly */
+}
+img {
+    height: 40px;
+    width: 40px;
+}
