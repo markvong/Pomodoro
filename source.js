@@ -2,6 +2,7 @@
 const SESSION = "Session";
 const SBREAK = "Sbreak";
 const LBREAK = "Lbreak";
+const END = "Finished";
 
 var CURRENT_INTERVAL = "";
 var NUM_INTERVALS = 0;
@@ -17,6 +18,12 @@ const MIN_LBREAK = 300;
 const DEFAULT_SESSION = 1500;
 const DEFAULT_SBREAK = 300;
 const DEFAULT_LBREAK = 1800;
+
+const READY = 'READY?';
+const FOCUS = 'Time to FOCUS!';
+const SHORT_BREAK = 'Time for a short break!';
+const LONG_BREAK = 'Take a walk buddy!';
+const FINISHED = 'You FINISHED!'
 
 var CONFIG_SESSION = DEFAULT_SESSION;
 var CONFIG_SBREAK = DEFAULT_SBREAK;
@@ -35,6 +42,8 @@ const breakLabel  = document.querySelector('#break-label');
 const longBreakLabel  = document.querySelector('#lng-break-label');
 const decrementButtons = Array.from(document.querySelectorAll('.dcr-btn'));
 const incrementButtons = Array.from(document.querySelectorAll('.incr-btn'));
+const sessionButtons = Array.from(document.querySelectorAll('.session-btn'));
+const statusLabel = document.querySelector('.ready');
 
 // Interval ID to store the session state
 var intervalID = '';
@@ -52,11 +61,6 @@ var configSettings = {
     shortBreak : 300,
     longBreak : 1800
 };
-
-// Button listeners
-function incrementButton(event) {
-    console.log(event.id);
-}
 
 // Update config UI
 function updateConfig() {
@@ -80,15 +84,15 @@ function initializeAll() {
     timerText.textContent       = formatTime(DEFAULT_SESSION);
     currTime            = DEFAULT_SESSION;
     CURRENT_INTERVAL    = SESSION;
-    NUM_INTERVALS       = 1;
 }
-
 
 // Timer functions
 // Start the timer countdown from configured setting
+// Fix multiple start issues
 function startTimer() {
     // DOM element inner html
     intervalID = setInterval(updateTimer, 1000);
+    updateStatus();
 }
 
 function pauseTimer() {
@@ -111,14 +115,14 @@ function stopTimer() {
 }
 
 function updateTimer() {
-
     timerText.textContent = formatTime(currTime);
 
     if(currTime <= 0) {
         clearInterval(intervalID);
         // On any interval end, play a sound
         if(CURRENT_INTERVAL === SESSION) {
-            if(NUM_INTERVALS >= 4) {
+            sessionButtons[NUM_INTERVALS].style.backgroundColor = 'rgb(216, 32, 0)';
+            if(NUM_INTERVALS >= 3) {
                 CURRENT_INTERVAL = LBREAK;
                 currTime = CONFIG_LBREAK;
             }
@@ -133,16 +137,44 @@ function updateTimer() {
             currTime = CONFIG_SESSION;
         }
         else if(CURRENT_INTERVAL === LBREAK) {
-            CURRENT_INTERVAL = SESSION;
-            NUM_INTERVALS = 1;
-            currTime = CONFIG_SESSION;
+            CURRENT_INTERVAL = END;
+            NUM_INTERVALS = 0;
             // Display message to show user finished task/reached long break
+            // disable
+            disableOnEnd();
+            updateStatus();
         }
-        
         return;
     }
     
     currTime--;
+}
+
+function disableOnEnd() {
+    startButton.disabled = true;
+    pauseButton.disabled = true;
+    stopButton.disabled = true;
+
+    startButton.style.opacity = '50%';
+    pauseButton.style.opacity = '50%';
+    stopButton.style.opacity = '50%';
+}
+
+function updateStatus() {
+    switch(CURRENT_INTERVAL) {
+        case(SESSION):
+            statusLabel.textContent = FOCUS;
+            break;
+        case(SBREAK):
+            statusLabel.textContent = SHORT_BREAK;
+            break;
+        case(LBREAK):
+            statusLabel.textContent = LONG_BREAK;
+            break;
+        case(END):
+            statusLabel.textContent = FINISHED;
+            break;
+    }
 }
 
 // Convert seconds into minutes + seconds formatted string "mm:ss" 
@@ -159,6 +191,18 @@ function resetSettings() {
     CONFIG_SESSION  = DEFAULT_SESSION;
     CONFIG_SBREAK   = DEFAULT_SBREAK;
     CONFIG_LBREAK   = DEFAULT_LBREAK;
+
+    startButton.disabled = false;
+    pauseButton.disabled = false;
+    stopButton.disabled = false;
+
+    startButton.style.opacity = '100%';
+    pauseButton.style.opacity = '100%';
+    stopButton.style.opacity = '100%';
+
+    sessionButtons.forEach((button) => {
+        button.style.backgroundColor = 'white';
+    });
 
     clearInterval(intervalID);
 }

@@ -1,23 +1,38 @@
-body {
+@font-face {
+    font-family: 'pixel-font-7';
+    src: url('pixel-font-7.ttf') format("truetype");
+}
+img {
+    height: 40px;
+    width: 40px;
+}
+img:hover {
+    transform: scale(1.5);
+    opacity: 0.9;
+}
+.main {
     text-align: center;
     margin: 0 auto;
     display: grid;
     width: 50%;
 }
-body > * {
+.main > * {
     /* border: 1px black solid; */
     padding: 10px;
-    font-family: 'Helvetica';
+    font-family: 'pixel-font-7';
 }
 .title {
-    font-size: 40px;
+    font-size: 48px;
     font-weight: bold;   
     color: rgb(216, 32, 0);
 }
 .timer-text {
-    font-size: 64px;
+    font-size: 40px;
     font-weight: bold;
     color: rgb(216, 32, 0);
+}
+.ready {
+    font-size: 24px;
 }
 .session-btn {
     border-radius: 100%;
@@ -28,18 +43,59 @@ body > * {
 }
 .timer-btn {
     border-radius: 50%;
-    font-size: 30px;
+    /* font-size: 30px; */
     padding: 10px;
 }
-.timer-btn:hover {
-    transform: scale(1.25);
-    opacity: 0.9;
-}
 .config-div {
+    /* border: 5px solid black; */
     display: grid;
-    /* create grid template area and format properly */
+    grid-template-columns: 40vh 15vh 30vh 15vh;
+    grid-template-areas: 
+        "cfg-sesh-lbl incr sesh-lbl decr"
+        "cfg-sbreak-lbl incr sbreak-lbl decr"
+        "cfg-lbreak-lbl incr lbreak-lbl decr";
+    row-gap: 20px;
+    align-items: center;
+    justify-items: center;
 }
-img {
-    height: 40px;
-    width: 40px;
+.config-btn {
+    height: 20px;
+    width: 20px;
+}
+.config-btn .incr-btn {
+    grid-area: incr;
+}
+.config-btn .decr-btn {
+    grid-area: decr;
+}
+#config-sesison-label {
+    grid-area: cfg-sesh-lbl;
+}
+#config-sbreak-label {
+    grid-area: cfg-sbreak-lbl;
+}
+#config-lbreak-label {
+    grid-area: cfg-lbreak-lbl;
+}
+.session-label {
+    grid-area: sesh-lbl;
+}
+.break-label {
+    grid-area: sbreak-lbl;
+}
+.lng-break-lbl {
+    grid-area: lbreak-lbl;
+}
+.config-label {
+    font-size: 24px;
+}
+.reset-btn {
+    margin: 20px auto;
+    border-radius: 10%;
+    font-size: 24px;
+    background-color: tomato;
+    color: white;
+}
+.reset-btn:hover {
+    transform: scale(1.25);
 }

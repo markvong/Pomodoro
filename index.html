@@ -6,39 +6,39 @@
         <link rel="stylesheet" type="text/css" href="style.css">
     </head>
     <body>
-        <label class="title">Pomodoro</label>
-        <label class="ready">Ready?</label>
-        <text class="timer-text">TIMER</text>
-        <div class="sessions-div">
-            <button class="session-btn" id="session1" disabled></button>
-            <button class="session-btn" id="session2" disabled></button>
-            <button class="session-btn" id="session3" disabled></button>
-            <button class="session-btn" id="session4" disabled></button>    
+        <div class="main">
+            <label class="title">Pomodoro</label>
+            <label class="ready">Ready?</label>
+            <text class="timer-text">TIMER</text>
+            <div class="sessions-div">
+                <button class="session-btn" id="session1" disabled></button>
+                <button class="session-btn" id="session2" disabled></button>
+                <button class="session-btn" id="session3" disabled></button>
+                <button class="session-btn" id="session4" disabled></button>    
+            </div>
+            <div class="timer-div">
+                <img class="timer-btn" id="start-btn" src="img/play-button.png">
+                <img class="timer-btn" id="pause-btn" src="img/pause-button.png">
+                <img class="timer-btn" id="stop-btn" src="img/stop-button.png">
+            </div>
+            <div class="config-div">
+                <label class="config-label" id="config-sesison-label">Session:</label>
+                <img class="config-btn incr-btn" id="session-incr-btn" src="img/plus.png">
+                <label class="config-label" id="session-label">SESSION TIME</label>
+                <img class="config-btn dcr-btn" id="session-dcr-btn" src="img/minus.png">
+    
+                <label class="config-label" id="config-sbreak-label">Short break:</label>
+                <img class="config-btn incr-btn" id="sbreak-incr-btn" src="img/plus.png">
+                <label class="config-label" id="break-label">SHORT BREAK TIME</label>
+                <img class="config-btn dcr-btn" id="sbreak-dcr-btn" src="img/minus.png">
+    
+                <label class="config-label" id="config-lbreak-label">Long break:</label>
+                <img class="config-btn incr-btn" id="lbreak-icr-btn" src="img/plus.png">
+                <label class="config-label" id="lng-break-label">LONG BREAK TIME</label>
+                <img class="config-btn dcr-btn" id="lbreak-dcr-btn" src="img/minus.png">
+            </div>
+            <button class="reset-btn">Reset</button>
         </div>
-        <div class="timer-div">
-            <img class="timer-btn" id="start-btn" src="img/play-button.png">
-            <img class="timer-btn" id="pause-btn" src="img/pause-button.png">
-            <img class="timer-btn" id="stop-btn" src="img/stop-button.png">
-        </div>
-        <div class="config-div">
-            <label class=="config-label">Session: </label>
-            <button class="config-btn dcr-btn" id="session-dcr-btn">decrease</button>
-            <label class="config-label" id="session-label">SESSION TIME</label>
-            <button class="config-btn incr-btn" id="session-incr-btn">increase</button>
-        <!-- </div>
-        <div class="config-div"> -->
-            <label class=="config-label">Short break: </label>
-            <button class="config-btn dcr-btn" id="sbreak-dcr-btn">decrease</button>
-            <label class="config-label" id="break-label">SHORT BREAK TIME</label>
-            <button class="config-btn incr-btn" id="sbreak-incr-btn">increase</button>
-        <!-- </div>
-        <div class="config-div"> -->
-            <label class=="config-label">Long break: </label>
-            <button class="config-btn dcr-btn" id="lbreak-dcr-btn">decrease</button>
-            <label class="config-label" id="lng-break-label">LONG BREAK TIME</label>
-            <button class="config-btn incr-btn" id="lbreak-icr-btn">increase</button>
-        </div>
-        <button class="reset-btn">Reset</button>
     </body>
 </html>
 
