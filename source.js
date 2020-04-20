@@ -91,8 +91,11 @@ function initializeAll() {
 // Fix multiple start issues
 function startTimer() {
     // DOM element inner html
-    intervalID = setInterval(updateTimer, 1000);
-    updateStatus();
+    if (intervalID === '') {
+        console.log('starting');
+        intervalID = setInterval(updateTimer, 1000);
+        updateStatus();
+    }
 }
 
 function pauseTimer() {
